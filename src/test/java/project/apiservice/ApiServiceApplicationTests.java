@@ -1,4 +1,4 @@
-package devproject.apiservice;
+package project.apiservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

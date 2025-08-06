@@ -1,0 +1,5 @@
+package project.apiservice.domain.enums;
+
+public enum UserRole {
+    ADMIN, MANAGER, EMPLOYEE
+}
