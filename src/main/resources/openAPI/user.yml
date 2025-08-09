@@ -1,0 +1,88 @@
+openapi: 3.0.0
+info:
+  title: User API
+  version: 1.0.0
+
+paths:
+  /register:
+    post:
+      summary: User registration
+      description: Register the user
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRegistrationRequest'
+      responses:
+        '200':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRegistrationResponse'
+        '401':
+          description: Fields were entered wrong
+
+components:
+  schemas:
+    UserRegistrationRequest:
+      type: object
+      required:
+        - username
+        - email
+        - password
+        - repeatedPassword
+      properties:
+        username:
+          type: string
+          example: "username"
+        email:
+          type: string
+          format: email
+          example: "email@example.com"
+        password:
+          type: string
+          format: password
+          example: "myPass"
+        repeatedPassword:
+          type: string
+          format: password
+          example: "myPassRepeat"
+        teamId:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+
+    UserRegistrationResponse:
+      type: object
+      required:
+        - id
+        - username
+        - email
+        - role
+        - teamId
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        username:
+          type: string
+          example: "username"
+        email:
+          type: string
+          format: email
+          example: "email@example.com"
+        role:
+          type: string
+          example: "USER"
+        teamId:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2025-08-07T14:23:30Z"

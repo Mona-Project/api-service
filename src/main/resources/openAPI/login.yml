@@ -42,13 +42,17 @@ components:
 
     LoginResponse:
       type: object
+      required:
+        - userId
+        - username
+        - token
       properties:
-        token:
-          type: string
-          example: "token.example139889ygagsd"
         userId:
           type: string
           example: "aaaaa2a5-0aaa-4aaa-aaaa-aaaaaaaaaaaa"
         username:
           type: string
           example: "mona"
+        token:
+          type: string
+          example: "token.example139889ygagsd"
