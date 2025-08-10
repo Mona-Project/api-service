@@ -23,7 +23,6 @@ import project.apiservice.shared.UserRegistrationUtils;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@RequestMapping("/apiservice")
 @RestController
 public class AuthController {
     private final UserMapper mapper;
