@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import project.apiservice.shared.TokenExtractionUtils;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -23,22 +24,18 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        final String authHeader = request.getHeader("Authorization");
+        final String token = TokenExtractionUtils.extractToken(request);
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            final String token = authHeader.substring(7);
+        if (jwtUtil.validateJwtToken(token)) {
+            final String username = jwtUtil.getUsernameFromJwtToken(token);
 
-            if (jwtUtil.validateJwtToken(token)) {
-                final String username = jwtUtil.getUsernameFromJwtToken(token);
+            final SimpleGrantedAuthority authority = new SimpleGrantedAuthority(jwtUtil.getRoleFromJwtToken(token));
 
-                final SimpleGrantedAuthority authority = new SimpleGrantedAuthority(jwtUtil.getRoleFromJwtToken(token));
+            final UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(username, null, Collections.singleton(authority));
 
-                final UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(username, null, Collections.singleton(authority));
-
-                SecurityContextHolder.getContext()
-                        .setAuthentication(authentication);
-            }
+            SecurityContextHolder.getContext()
+                    .setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
     }

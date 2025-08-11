@@ -45,6 +45,7 @@ components:
       required:
         - userId
         - username
+        - role
         - token
       properties:
         userId:
@@ -53,6 +54,9 @@ components:
         username:
           type: string
           example: "mona"
+        role:
+          type: string
+          example: "EMPLOYEE"
         token:
           type: string
           example: "token.example139889ygagsd"

@@ -8,7 +8,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import project.apiservice.application.port.UserManagementUseCase;
 import project.apiservice.domain.model.UserEntity;
@@ -17,7 +16,7 @@ import project.apiservice.infrastructure.security.jwt.JwtUtil;
 import project.apiservice.openapi.model.LoginRequest;
 import project.apiservice.openapi.model.LoginResponse;
 import project.apiservice.openapi.model.UserRegistrationRequest;
-import project.apiservice.openapi.model.UserRegistrationResponse;
+import project.apiservice.openapi.model.UserResponse;
 import project.apiservice.shared.UserRegistrationUtils;
 
 import java.util.Optional;
@@ -42,7 +41,8 @@ public class AuthController {
         final String token = jwtUtil.generateJwtToken(username, user.getRole());
 
         return ResponseEntity.ok(new LoginResponse(user.getId()
-                .toString(), username, token));
+                .toString(), username, user.getRole()
+                .toString(), token));
     }
 
     @PostMapping("/logout")
@@ -53,8 +53,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserRegistrationResponse> register(@RequestBody
-                                                             UserRegistrationRequest request) {
+    public ResponseEntity<UserResponse> register(@RequestBody
+                                                 UserRegistrationRequest request) {
         UserRegistrationUtils.checkPasswordMatch(request.getPassword(), request.getRepeatedPassword());
 
         final UserEntity entity = mapper.userRequestToUserEntity(request);

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import project.apiservice.domain.enums.UserRole;
 import project.apiservice.domain.model.BlackListEntity;
 import project.apiservice.infrastructure.persistance.BlackListRepositoryJpa;
+import project.apiservice.shared.TokenExtractionUtils;
 
 import javax.crypto.SecretKey;
 import java.time.OffsetDateTime;
@@ -67,17 +68,13 @@ public class JwtUtil {
     }
 
     public void invalidateToken(HttpServletRequest request) {
-        final String header = request.getHeader("Authorization");
+        final String token = TokenExtractionUtils.extractToken(request);
 
-        if (header != null && header.startsWith("Bearer ")) {
-            final String token = header.substring(7);
+        final BlackListEntity toInvalidate = BlackListEntity.builder()
+                .token(token)
+                .blacklistedAt(OffsetDateTime.now())
+                .build();
 
-            final BlackListEntity toInvalidate = BlackListEntity.builder()
-                    .token(token)
-                    .blacklistedAt(OffsetDateTime.now())
-                    .build();
-            
-            blackListRepository.save(toInvalidate);
-        }
+        blackListRepository.save(toInvalidate);
     }
 }
