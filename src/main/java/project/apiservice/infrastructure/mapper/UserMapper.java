@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import project.apiservice.domain.model.UserEntity;
 import project.apiservice.openapi.model.UserRegistrationRequest;
-import project.apiservice.openapi.model.UserRegistrationResponse;
+import project.apiservice.openapi.model.UserResponse;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
@@ -12,5 +12,5 @@ public interface UserMapper {
     @Mapping(target = "createdAt", expression = "java(java.time.OffsetDateTime.now())")
     UserEntity userRequestToUserEntity(UserRegistrationRequest request);
 
-    UserRegistrationResponse userEntityToUserResponse(UserEntity entity);
+    UserResponse userEntityToUserResponse(UserEntity entity);
 }
