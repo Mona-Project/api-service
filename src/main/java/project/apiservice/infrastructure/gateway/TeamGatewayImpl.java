@@ -1,0 +1,104 @@
+package project.apiservice.infrastructure.gateway;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+import project.apiservice.application.port.gateway.TeamGateway;
+import project.apiservice.domain.model.UserEntity;
+import project.apiservice.openapi.model.TeamRequest;
+import project.apiservice.openapi.model.TeamResponse;
+
+import java.util.List;
+import java.util.UUID;
+
+@RequiredArgsConstructor
+@Component
+public class TeamGatewayImpl implements TeamGateway {
+    @Value("${team.service.url}")
+    private static String URL;
+    private static final String TEAM_ID = URL + "/teams/{id}";
+    private final RestTemplate restTemplate;
+
+    @Override
+    public TeamResponse createTeam(TeamRequest request) {
+        final String url = URL + "/teams";
+        return restTemplate.postForObject(url, request, TeamResponse.class);
+    }
+
+    @Override
+    public TeamResponse getTeamById(UUID id,
+                                    UUID userId) {
+        final String baseUrl = URL + "/teams/{id}";
+        final String url;
+
+        if (userId != null) {
+            url = UriComponentsBuilder.fromUriString(baseUrl)
+                    .queryParam("userId", userId)
+                    .toUriString();
+        } else {
+            url = baseUrl;
+        }
+
+        return restTemplate.getForObject(url, TeamResponse.class, id);
+    }
+
+    @Override
+    public TeamResponse updateTeam(UUID id,
+                                   TeamRequest request,
+                                   UUID userId) {
+        final String baseUrl = URL + "/teams/{id}";
+        final String url;
+
+        if (userId != null) {
+            url = UriComponentsBuilder.fromUriString(baseUrl)
+                    .queryParam("userId", userId)
+                    .toUriString();
+        } else {
+            url = baseUrl;
+        }
+        return restTemplate.exchange(url, HttpMethod.PUT, new HttpEntity<>(request), TeamResponse.class, id)
+                .getBody();
+    }
+
+    @Override
+    public TeamResponse deleteTeam(UUID id) {
+        final String url = URL + "/teams/{id}";
+
+        return restTemplate.exchange(url, HttpMethod.DELETE, HttpEntity.EMPTY, TeamResponse.class, id)
+                .getBody();
+    }
+
+    @Override
+    public List<UserEntity> listTeamMembers(UUID id) {
+        final String url = URL + "/teams/{id}/users";
+
+        return restTemplate.exchange(
+                        url,
+                        HttpMethod.GET,
+                        HttpEntity.EMPTY,
+                        new ParameterizedTypeReference<List<UserEntity>>() {
+                        },
+                        id
+                )
+                .getBody();
+    }
+
+    @Override
+    public List<UserEntity> listTeamManagers(UUID id) {
+        final String url = URL + "/teams/{id}/managers";
+
+        return restTemplate.exchange(
+                        url,
+                        HttpMethod.GET, HttpEntity.EMPTY,
+                        new ParameterizedTypeReference<List<UserEntity>>() {
+                        },
+                        id
+                )
+                .getBody();
+    }
+}

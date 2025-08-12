@@ -1,0 +1,55 @@
+openapi: 3.0.0
+info:
+  title: User API
+  version: 1.0.0
+
+paths:
+  /teams:
+    post:
+      summary: Team registration
+      description: Register a new Team
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamRequest'
+      responses:
+        '200':
+          description: Team registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamResponse'
+        '401':
+          description: Fields were entered wrong
+
+components:
+  schemas:
+    TeamRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: "name"
+
+    TeamResponse:
+      type: object
+      required:
+        - id
+        - username
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        name:
+          type: string
+          example: "name"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2025-08-07T14:23:30Z"

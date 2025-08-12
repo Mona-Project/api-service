@@ -15,6 +15,7 @@ import project.apiservice.shared.TokenExtractionUtils;
 import javax.crypto.SecretKey;
 import java.time.OffsetDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Component
@@ -24,11 +25,13 @@ public class JwtUtil {
 
     private final BlackListRepositoryJpa blackListRepository;
 
-    public String generateJwtToken(String username,
+    public String generateJwtToken(UUID id,
+                                   String username,
                                    UserRole role) {
         return Jwts.builder()
                 .setSubject(username)
                 .claim("role", role)
+                .claim("userID", id)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SECRET_KEY)
@@ -52,6 +55,15 @@ public class JwtUtil {
                 .getBody()
                 .get("role")
                 .toString();
+    }
+
+    public UUID getIdFromJwtToken(String token) {
+        return (UUID) Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY)
+                .build()
+                .parseClaimsJwt(token)
+                .getBody()
+                .get("userID");
     }
 
     public boolean validateJwtToken(String token) {

@@ -49,10 +49,6 @@ components:
           type: string
           format: password
           example: "myPassRepeat"
-        teamId:
-          type: string
-          format: uuid
-          example: "123e4567-e89b-12d3-a456-426614174000"
 
     UserResponse:
       type: object
@@ -61,7 +57,6 @@ components:
         - username
         - email
         - role
-        - teamId
         - createdAt
       properties:
         id:
@@ -78,10 +73,6 @@ components:
         role:
           type: string
           example: "USER"
-        teamId:
-          type: string
-          format: uuid
-          example: "123e4567-e89b-12d3-a456-426614174000"
         createdAt:
           type: string
           format: date-time
