@@ -38,7 +38,7 @@ public class AuthController {
         final Optional<UserEntity> optionalUser = userService.findByUsername(username);
         final UserEntity user = optionalUser.orElse(null);
 
-        final String token = jwtUtil.generateJwtToken(username, user.getRole());
+        final String token = jwtUtil.generateJwtToken(user.getId(),username, user.getRole());
 
         return ResponseEntity.ok(new LoginResponse(user.getId()
                 .toString(), username, user.getRole()
