@@ -19,10 +19,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Component
 public class TeamGatewayImpl implements TeamGateway {
-    @Value("${team.service.url}")
-    private static String URL;
-    private static final String TEAM_ID = URL + "/teams/{id}";
     private final RestTemplate restTemplate;
+    @Value("${team.service.url}")
+    private String URL;
 
     @Override
     public TeamResponse createTeam(TeamRequest request) {
@@ -31,9 +30,16 @@ public class TeamGatewayImpl implements TeamGateway {
     }
 
     @Override
+    public void deleteTeam(TeamRequest request) {
+        final String url = URL + "/teams";
+
+        restTemplate.exchange(url, HttpMethod.DELETE, new HttpEntity<>(request), Void.class);
+    }
+
+    @Override
     public TeamResponse getTeamById(UUID id,
                                     UUID userId) {
-        final String baseUrl = URL + "/teams/{id}";
+        final String baseUrl = URL + "/teams/{teamId}";
         final String url;
 
         if (userId != null) {
@@ -74,28 +80,14 @@ public class TeamGatewayImpl implements TeamGateway {
     }
 
     @Override
-    public List<UserEntity> listTeamMembers(UUID id) {
+    public List<UUID> listTeamMembers(UUID id) {
         final String url = URL + "/teams/{id}/users";
 
         return restTemplate.exchange(
                         url,
                         HttpMethod.GET,
                         HttpEntity.EMPTY,
-                        new ParameterizedTypeReference<List<UserEntity>>() {
-                        },
-                        id
-                )
-                .getBody();
-    }
-
-    @Override
-    public List<UserEntity> listTeamManagers(UUID id) {
-        final String url = URL + "/teams/{id}/managers";
-
-        return restTemplate.exchange(
-                        url,
-                        HttpMethod.GET, HttpEntity.EMPTY,
-                        new ParameterizedTypeReference<List<UserEntity>>() {
+                        new ParameterizedTypeReference<List<UUID>>() {
                         },
                         id
                 )

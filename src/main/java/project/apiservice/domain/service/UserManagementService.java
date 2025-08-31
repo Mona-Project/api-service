@@ -7,6 +7,7 @@ import project.apiservice.application.port.UserManagementUseCase;
 import project.apiservice.domain.model.UserEntity;
 import project.apiservice.infrastructure.persistance.UserRepositoryJpa;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,5 +32,10 @@ public class UserManagementService implements UserManagementUseCase {
     @Override
     public Optional<UserEntity> findUserById(UUID id) {
         return repositoryJpa.findUserEntityById(id);
+    }
+
+    @Override
+    public List<UserEntity> findUsersById(List<UUID> list) {
+        return repositoryJpa.findByIdIn(list);
     }
 }

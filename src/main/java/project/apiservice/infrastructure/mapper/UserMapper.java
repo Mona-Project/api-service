@@ -6,6 +6,8 @@ import project.apiservice.domain.model.UserEntity;
 import project.apiservice.openapi.model.UserRegistrationRequest;
 import project.apiservice.openapi.model.UserResponse;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface UserMapper {
     @Mapping(target = "role", expression = "java(project.apiservice.domain.enums.UserRole.EMPLOYEE)")
@@ -13,4 +15,6 @@ public interface UserMapper {
     UserEntity userRequestToUserEntity(UserRegistrationRequest request);
 
     UserResponse userEntityToUserResponse(UserEntity entity);
+
+    List<UserResponse> userEntityListToResponseList(List<UserEntity> list);
 }
