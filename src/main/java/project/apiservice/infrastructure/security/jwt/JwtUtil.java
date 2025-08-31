@@ -58,12 +58,13 @@ public class JwtUtil {
     }
 
     public UUID getIdFromJwtToken(String token) {
-        return (UUID) Jwts.parserBuilder()
+        return UUID.fromString(Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY)
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody()
-                .get("userID");
+                .get("userID")
+                .toString());
     }
 
     public boolean validateJwtToken(String token) {

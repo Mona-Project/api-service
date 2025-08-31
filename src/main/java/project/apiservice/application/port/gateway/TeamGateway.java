@@ -10,9 +10,9 @@ import java.util.UUID;
 
 public interface TeamGateway {
     TeamResponse createTeam(TeamRequest request);
+    void deleteTeam(TeamRequest request);
     TeamResponse getTeamById(UUID id, UUID userId);
     TeamResponse updateTeam(UUID id, TeamRequest request, UUID userId);
     TeamResponse deleteTeam(UUID id);
-    List<UserEntity> listTeamMembers(UUID id);
-    List<UserEntity> listTeamManagers(UUID id);
+    List<UUID> listTeamMembers(UUID id);
 }
