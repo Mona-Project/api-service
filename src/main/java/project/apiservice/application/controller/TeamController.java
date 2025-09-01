@@ -59,9 +59,13 @@ public class TeamController {
         final TeamResponse response;
 
         if (role.equals(UserRole.ADMIN)) {
-            response = teamGateway.getTeamById(teamId, null);
+            response = teamGateway.getTeamById(teamId,
+                                               null
+            );
         } else {
-            response = teamGateway.getTeamById(teamId, userID);
+            response = teamGateway.getTeamById(teamId,
+                                               userID
+            );
         }
 
         return ResponseEntity.ok(response);
@@ -79,9 +83,15 @@ public class TeamController {
         final TeamResponse response;
 
         if (role.equals(UserRole.ADMIN)) {
-            response = teamGateway.updateTeam(id, teamRequest, null);
+            response = teamGateway.updateTeam(id,
+                                              teamRequest,
+                                              null
+            );
         } else {
-            response = teamGateway.updateTeam(id, teamRequest, userID);
+            response = teamGateway.updateTeam(id,
+                                              teamRequest,
+                                              userID
+            );
         }
 
         return ResponseEntity.ok(response);

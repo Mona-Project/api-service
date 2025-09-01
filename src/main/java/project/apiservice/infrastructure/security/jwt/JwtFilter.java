@@ -32,12 +32,17 @@ public class JwtFilter extends OncePerRequestFilter {
             final SimpleGrantedAuthority authority = new SimpleGrantedAuthority(jwtUtil.getRoleFromJwtToken(token));
 
             final UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(username, null, Collections.singleton(authority));
+                    new UsernamePasswordAuthenticationToken(username,
+                                                            null,
+                                                            Collections.singleton(authority)
+                    );
 
             SecurityContextHolder.getContext()
                     .setAuthentication(authentication);
         }
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(request,
+                             response
+        );
     }
 
     @Override
