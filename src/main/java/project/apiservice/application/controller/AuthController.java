@@ -31,18 +31,27 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest req) {
-        final Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword()));
+        final Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(req.getUsername(),
+                                                                                                               req.getPassword()
+        ));
 
         final String username = req.getUsername();
 
         final Optional<UserEntity> optionalUser = userService.findByUsername(username);
         final UserEntity user = optionalUser.orElse(null);
 
-        final String token = jwtUtil.generateJwtToken(user.getId(),username, user.getRole());
+        final String token = jwtUtil.generateJwtToken(user.getId(),
+                                                      username,
+                                                      user.getRole()
+        );
 
         return ResponseEntity.ok(new LoginResponse(user.getId()
-                .toString(), username, user.getRole()
-                .toString(), token));
+                                                           .toString(),
+                                                   username,
+                                                   user.getRole()
+                                                           .toString(),
+                                                   token
+        ));
     }
 
     @PostMapping("/logout")
@@ -55,7 +64,9 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<UserResponse> register(@RequestBody
                                                  UserRegistrationRequest request) {
-        UserRegistrationUtils.checkPasswordMatch(request.getPassword(), request.getRepeatedPassword());
+        UserRegistrationUtils.checkPasswordMatch(request.getPassword(),
+                                                 request.getRepeatedPassword()
+        );
 
         final UserEntity entity = mapper.userRequestToUserEntity(request);
         final UserEntity savedUser = userService.save(entity);

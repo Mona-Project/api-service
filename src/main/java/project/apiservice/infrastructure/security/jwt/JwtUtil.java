@@ -30,8 +30,12 @@ public class JwtUtil {
                                    UserRole role) {
         return Jwts.builder()
                 .setSubject(username)
-                .claim("role", role)
-                .claim("userID", id)
+                .claim("role",
+                       role
+                )
+                .claim("userID",
+                       id
+                )
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SECRET_KEY)
@@ -59,12 +63,12 @@ public class JwtUtil {
 
     public UUID getIdFromJwtToken(String token) {
         return UUID.fromString(Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .get("userID")
-                .toString());
+                                       .setSigningKey(SECRET_KEY)
+                                       .build()
+                                       .parseClaimsJws(token)
+                                       .getBody()
+                                       .get("userID")
+                                       .toString());
     }
 
     public boolean validateJwtToken(String token) {

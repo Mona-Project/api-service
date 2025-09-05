@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import project.apiservice.application.port.gateway.TeamGateway;
-import project.apiservice.domain.model.UserEntity;
 import project.apiservice.openapi.model.TeamRequest;
 import project.apiservice.openapi.model.TeamResponse;
 
@@ -26,14 +25,21 @@ public class TeamGatewayImpl implements TeamGateway {
     @Override
     public TeamResponse createTeam(TeamRequest request) {
         final String url = URL + "/teams";
-        return restTemplate.postForObject(url, request, TeamResponse.class);
+        return restTemplate.postForObject(url,
+                                          request,
+                                          TeamResponse.class
+        );
     }
 
     @Override
     public void deleteTeam(TeamRequest request) {
         final String url = URL + "/teams";
 
-        restTemplate.exchange(url, HttpMethod.DELETE, new HttpEntity<>(request), Void.class);
+        restTemplate.exchange(url,
+                              HttpMethod.DELETE,
+                              new HttpEntity<>(request),
+                              Void.class
+        );
     }
 
     @Override
@@ -44,13 +50,18 @@ public class TeamGatewayImpl implements TeamGateway {
 
         if (userId != null) {
             url = UriComponentsBuilder.fromUriString(baseUrl)
-                    .queryParam("userId", userId)
+                    .queryParam("userId",
+                                userId
+                    )
                     .toUriString();
         } else {
             url = baseUrl;
         }
 
-        return restTemplate.getForObject(url, TeamResponse.class, id);
+        return restTemplate.getForObject(url,
+                                         TeamResponse.class,
+                                         id
+        );
     }
 
     @Override
@@ -62,12 +73,19 @@ public class TeamGatewayImpl implements TeamGateway {
 
         if (userId != null) {
             url = UriComponentsBuilder.fromUriString(baseUrl)
-                    .queryParam("userId", userId)
+                    .queryParam("userId",
+                                userId
+                    )
                     .toUriString();
         } else {
             url = baseUrl;
         }
-        return restTemplate.exchange(url, HttpMethod.PUT, new HttpEntity<>(request), TeamResponse.class, id)
+        return restTemplate.exchange(url,
+                                     HttpMethod.PUT,
+                                     new HttpEntity<>(request),
+                                     TeamResponse.class,
+                                     id
+                )
                 .getBody();
     }
 
@@ -75,7 +93,12 @@ public class TeamGatewayImpl implements TeamGateway {
     public TeamResponse deleteTeam(UUID id) {
         final String url = URL + "/teams/{id}";
 
-        return restTemplate.exchange(url, HttpMethod.DELETE, HttpEntity.EMPTY, TeamResponse.class, id)
+        return restTemplate.exchange(url,
+                                     HttpMethod.DELETE,
+                                     HttpEntity.EMPTY,
+                                     TeamResponse.class,
+                                     id
+                )
                 .getBody();
     }
 
