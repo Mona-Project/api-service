@@ -21,7 +21,7 @@ import project.apiservice.infrastructure.security.jwt.JwtUtil;
 import project.apiservice.openapi.model.TeamRequest;
 import project.apiservice.openapi.model.TeamResponse;
 import project.apiservice.openapi.model.UserResponse;
-import project.apiservice.shared.TokenExtractionUtils;
+import project.apiservice.shared.utils.TokenExtractionUtils;
 
 import java.util.List;
 import java.util.UUID;

@@ -17,7 +17,7 @@ import project.apiservice.openapi.model.TaskRequest;
 import project.apiservice.openapi.model.TaskResponse;
 import project.apiservice.openapi.model.UpdateTaskAssignee;
 import project.apiservice.openapi.model.UpdateTaskStatus;
-import project.apiservice.shared.TokenExtractionUtils;
+import project.apiservice.shared.utils.TokenExtractionUtils;
 
 import java.util.List;
 import java.util.UUID;

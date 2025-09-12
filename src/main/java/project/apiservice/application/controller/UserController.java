@@ -16,7 +16,7 @@ import project.apiservice.domain.model.UserEntity;
 import project.apiservice.infrastructure.mapper.UserMapper;
 import project.apiservice.infrastructure.security.jwt.JwtUtil;
 import project.apiservice.openapi.model.UserResponse;
-import project.apiservice.shared.TokenExtractionUtils;
+import project.apiservice.shared.utils.TokenExtractionUtils;
 
 import java.util.Optional;
 import java.util.UUID;

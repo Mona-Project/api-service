@@ -23,6 +23,10 @@ paths:
                 $ref: '#/components/schemas/LoginResponse'
         '401':
           description: 'Invalid Credentials'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
 components:
   schemas:
@@ -60,3 +64,23 @@ components:
         token:
           type: string
           example: "token.example139889ygagsd"
+    ErrorResponse:
+      type: object
+      required:
+        - status
+        - code
+        - message
+        - suggestion
+      properties:
+        status:
+          type: integer
+          example: 400
+        code:
+          type: string
+          example: "BAD_REQUEST"
+        message:
+          type: string
+          example: "This is a message"
+        suggestion:
+          type: string
+          example: "This is a suggestion"

@@ -23,6 +23,10 @@ paths:
                 $ref: '#/components/schemas/TeamResponse'
         '401':
           description: Fields were entered wrong
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
 components:
   schemas:
@@ -53,3 +57,23 @@ components:
           type: string
           format: date-time
           example: "2025-08-07T14:23:30Z"
+    ErrorResponse:
+      type: object
+      required:
+        - status
+        - code
+        - message
+        - suggestion
+      properties:
+        status:
+          type: integer
+          example: 400
+        code:
+          type: string
+          example: "BAD_REQUEST"
+        message:
+          type: string
+          example: "This is a message"
+        suggestion:
+          type: string
+          example: "This is a suggestion"

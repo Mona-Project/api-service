@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import project.apiservice.domain.enums.UserRole;
 import project.apiservice.domain.model.BlackListEntity;
 import project.apiservice.infrastructure.persistance.BlackListRepositoryJpa;
-import project.apiservice.shared.TokenExtractionUtils;
+import project.apiservice.shared.utils.TokenExtractionUtils;
 
 import javax.crypto.SecretKey;
 import java.time.OffsetDateTime;
