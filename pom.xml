@@ -216,6 +216,32 @@
                             </configOptions>
                         </configuration>
                     </execution>
+
+                    <execution>
+                        <id>Generate task</id>
+
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>
+                                ${project.basedir}/src/main/resources/openAPI/task.yml
+                            </inputSpec>
+                            <generatorName>spring</generatorName>
+                            <apiPackage>project.apiservice.openapi.api</apiPackage>
+                            <modelPackage>project.apiservice.openapi.model</modelPackage>
+                            <supportingFilesToGenerate>
+                                ApiUtil.java
+                            </supportingFilesToGenerate>
+                            <configOptions>
+                                <delegatePattern>true</delegatePattern>
+                                <useJakartaEe>true</useJakartaEe>
+                                <skipDefaultInterface>true</skipDefaultInterface>
+                                <interfaceOnly>true</interfaceOnly>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+
                 </executions>
             </plugin>
         </plugins>

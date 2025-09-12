@@ -1,0 +1,159 @@
+openapi: 3.0.0
+info:
+  title: Login API
+  version: 1.0.0
+
+paths:
+  /tasks:
+    post:
+      summary: Create task
+      description: Creates a task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskRequest'
+      responses:
+        '200':
+          description: 'Task created'
+
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '400':
+          description: 'The body is not valid'
+  /status:
+    put:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTaskStatus'
+      responses:
+        200:
+          description: "updated"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+
+        400:
+          description: "bad body"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+  /asignee:
+    put:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTaskAssignee'
+      responses:
+        200:
+          description: "updated"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+
+        400:
+          description: "bad body"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+
+
+components:
+  schemas:
+    TaskRequest:
+      type: object
+      required:
+        - title
+        - status
+        - teamId
+        - createdBy
+      properties:
+        title:
+          type: string
+          example: "task 1"
+        description:
+          type: string
+          example: "this is the description"
+        status:
+          type: string
+          enum: [ "TODO", "IN_PROGRESS", "DONE" ]
+        assignedUserId:
+          type: string
+          format: uuid
+          example: "aaaaa2a5-0aaa-4aaa-aaaa-aaaaaaaaaaaa"
+        teamId:
+          type: string
+          format: uuid
+          example: "aaaaa2a5-0aaa-4aaa-aaaa-aaaaaaaaaaaa"
+        createdBy:
+          type: string
+          format: uuid
+          example: "aaaaa2a5-0aaa-4aaa-aaaa-aaaaaaaaaaaa"
+
+    TaskResponse:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - status
+        - assignedUserId
+        - teamId
+        - createdBy
+        - createdAt
+      properties:
+        title:
+          type: string
+          example: "task 1"
+        description:
+          type: string
+          example: "this is the description"
+        status:
+          type: string
+          enum: [ "TODO", "IN_PROGRESS", "DONE" ]
+        assignedUserId:
+          type: string
+          format: uuid
+          example: "aaaaa2a5-0aaa-4aaa-aaaa-aaaaaaaaaaaa"
+        teamId:
+          type: string
+          format: uuid
+          example: "aaaaa2a5-0aaa-4aaa-aaaa-aaaaaaaaaaaa"
+        createdBy:
+          type: string
+          format: uuid
+          example: "aaaaa2a5-0aaa-4aaa-aaaa-aaaaaaaaaaaa"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2025-08-07T14:23:30Z"
+    UpdateTaskStatus:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum: [ "TODO", "IN_PROGRESS", "DONE" ]
+          example: "TODO"
+    UpdateTaskAssignee:
+      type: object
+      required:
+        - userId
+      properties:
+        userId:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
