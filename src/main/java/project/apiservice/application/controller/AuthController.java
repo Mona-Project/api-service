@@ -4,12 +4,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import project.apiservice.application.port.UserManagementUseCase;
+import project.apiservice.domain.exception.InvalidCredentials;
 import project.apiservice.domain.model.UserEntity;
 import project.apiservice.infrastructure.mapper.UserMapper;
 import project.apiservice.infrastructure.security.jwt.JwtUtil;
@@ -17,7 +19,7 @@ import project.apiservice.openapi.model.LoginRequest;
 import project.apiservice.openapi.model.LoginResponse;
 import project.apiservice.openapi.model.UserRegistrationRequest;
 import project.apiservice.openapi.model.UserResponse;
-import project.apiservice.shared.UserRegistrationUtils;
+import project.apiservice.shared.utils.UserRegistrationUtils;
 
 import java.util.Optional;
 
@@ -31,9 +33,14 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest req) {
-        final Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(req.getUsername(),
-                                                                                                               req.getPassword()
-        ));
+        try {
+
+            final Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(req.getUsername(),
+                                                                                                                   req.getPassword()
+            ));
+        } catch (BadCredentialsException ex) {
+            throw new InvalidCredentials();
+        }
 
         final String username = req.getUsername();
 

@@ -1,4 +1,4 @@
-package project.apiservice.shared;
+package project.apiservice.shared.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.experimental.UtilityClass;

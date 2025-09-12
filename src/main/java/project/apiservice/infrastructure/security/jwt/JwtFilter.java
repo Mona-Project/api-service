@@ -6,13 +6,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import project.apiservice.shared.TokenExtractionUtils;
+import project.apiservice.domain.exception.InvalidBody;
+import project.apiservice.domain.exception.NoAccess;
+import project.apiservice.shared.utils.TokenExtractionUtils;
 
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.util.Collections;
 
 @RequiredArgsConstructor
@@ -40,9 +44,9 @@ public class JwtFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext()
                     .setAuthentication(authentication);
         }
-        filterChain.doFilter(request,
-                             response
-        );
+            filterChain.doFilter(request,
+                                 response
+            );
     }
 
     @Override

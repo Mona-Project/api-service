@@ -24,6 +24,11 @@ paths:
                 $ref: '#/components/schemas/TaskResponse'
         '400':
           description: 'The body is not valid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
   /status:
     put:
       requestBody:
@@ -45,7 +50,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaskResponse'
+                $ref: '#/components/schemas/ErrorResponse'
   /asignee:
     put:
       requestBody:
@@ -67,7 +72,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaskResponse'
+                $ref: '#/components/schemas/ErrorResponse'
 
 
 components:
@@ -157,3 +162,23 @@ components:
           type: string
           format: uuid
           example: "123e4567-e89b-12d3-a456-426614174000"
+    ErrorResponse:
+      type: object
+      required:
+        - status
+        - code
+        - message
+        - suggestion
+      properties:
+        status:
+          type: integer
+          example: 400
+        code:
+          type: string
+          example: "BAD_REQUEST"
+        message:
+          type: string
+          example: "This is a message"
+        suggestion:
+          type: string
+          example: "This is a suggestion"
